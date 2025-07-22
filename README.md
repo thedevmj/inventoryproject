@@ -40,4 +40,4 @@ A simple yet functional desktop-based Java application for managing personal not
 - **IDE**: NetBeans  
 - **Storage**: Local data structures (e.g., Lists or Maps) or file-based storage
 
-## 📂 File Structure (Example)
+
