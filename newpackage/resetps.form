@@ -23,6 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
+<<<<<<< HEAD
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="83" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -38,10 +39,14 @@
               </Group>
               <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
           </Group>
+=======
+          <EmptySpace min="0" pref="501" max="32767" attributes="0"/>
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
+<<<<<<< HEAD
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -82,4 +87,10 @@
       </Events>
     </Component>
   </SubComponents>
+=======
+          <EmptySpace min="0" pref="424" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
 </Form>

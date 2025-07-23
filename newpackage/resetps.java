@@ -5,12 +5,15 @@
  */
 package newpackage;
 
+<<<<<<< HEAD
 
 import dao.connectionprovider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
 /**
  *
  * @author Junaid Mansuri
@@ -23,9 +26,12 @@ public class resetps extends javax.swing.JFrame {
     public resetps() {
         initComponents();
         setLocationRelativeTo(null);
+<<<<<<< HEAD
         JOptionPane.showMessageDialog(this, "OTP sent! Please check your email.");
 
         
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
     }
 
     /**
@@ -37,6 +43,7 @@ public class resetps extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         jLabel1 = new javax.swing.JLabel();
         ps = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -56,10 +63,15 @@ public class resetps extends javax.swing.JFrame {
             }
         });
 
+=======
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -84,11 +96,19 @@ public class resetps extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jButton1)
                 .addContainerGap(168, Short.MAX_VALUE))
+=======
+            .addGap(0, 501, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 424, Short.MAX_VALUE)
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
@@ -112,6 +132,8 @@ public class resetps extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
     /**
      * @param args the command line arguments
      */
@@ -126,6 +148,7 @@ public class resetps extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+<<<<<<< HEAD
 
                 }
             }
@@ -144,6 +167,18 @@ public class resetps extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(resetps.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+=======
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         }
         //</editor-fold>
 
@@ -156,9 +191,12 @@ public class resetps extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField ps;
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
     // End of variables declaration//GEN-END:variables
 }
