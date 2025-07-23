@@ -5,6 +5,15 @@
  */
 package newpackage;
 
+<<<<<<< HEAD
+
+import dao.connectionprovider;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
+
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
 /**
  *
  * @author Junaid Mansuri
@@ -17,6 +26,12 @@ public class resetps extends javax.swing.JFrame {
     public resetps() {
         initComponents();
         setLocationRelativeTo(null);
+<<<<<<< HEAD
+        JOptionPane.showMessageDialog(this, "OTP sent! Please check your email.");
+
+        
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
     }
 
     /**
@@ -28,22 +43,97 @@ public class resetps extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
+        jLabel1 = new javax.swing.JLabel();
+        ps = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel1.setText("Reset Password");
+
+        jLabel2.setText("New Password");
+
+        jButton1.setText("Reset");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+=======
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))))
+                .addGap(139, 139, 139))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(29, 29, 29)
+                .addComponent(jButton1)
+                .addContainerGap(168, Short.MAX_VALUE))
+=======
             .addGap(0, 501, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 424, Short.MAX_VALUE)
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            int newpass =Integer.parseInt(ps.getText().trim());
+            int fetchid = AppSession.userid;
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("update usertbl set privpass=? where userid=?");
+            pst.setInt(1,newpass);
+            pst.setInt(2, fetchid);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Password created !");
+
+        } catch (NumberFormatException np) {
+            JOptionPane.showMessageDialog(null, "Enter Password in Numbers  !");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "An error occured !" + e);
+
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
     /**
      * @param args the command line arguments
      */
@@ -58,6 +148,26 @@ public class resetps extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+<<<<<<< HEAD
+
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+=======
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -68,6 +178,7 @@ public class resetps extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         }
         //</editor-fold>
 
@@ -80,5 +191,12 @@ public class resetps extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField ps;
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
     // End of variables declaration//GEN-END:variables
 }

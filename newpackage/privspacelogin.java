@@ -5,6 +5,11 @@
  */
 package newpackage;
 
+<<<<<<< HEAD
+import services.emailservice;
+import services.otpgeneration;
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
 import dao.connectionprovider;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -21,6 +26,29 @@ public class privspacelogin extends javax.swing.JFrame {
     public privspacelogin() {
         initComponents();
         setLocationRelativeTo(null);
+<<<<<<< HEAD
+
+    }
+
+    private String getemail() {
+      String email="";
+        try {
+            int uid=AppSession.userid;
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select usergmail from usertbl where userid=?");
+            pst.setInt(1, uid);
+            ResultSet rs = pst.executeQuery();    
+            if (rs.next()) {
+               email = rs.getString("usergmail");               
+            }
+        } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+
+        }
+        
+     return email;
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
     }
 
     /**
@@ -124,6 +152,14 @@ public class privspacelogin extends javax.swing.JFrame {
 
     private void lblpsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblpsMouseClicked
         // TODO add your handling code here:
+<<<<<<< HEAD
+        emailservice es = new emailservice();
+        otpgeneration genotp = new otpgeneration();
+       
+        String mail=getemail();
+        es.sendOTP(mail, genotp.generateotp(6));
+=======
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         new resetps().setVisible(true);
 
 
@@ -131,15 +167,48 @@ public class privspacelogin extends javax.swing.JFrame {
 
     private void btnconfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmActionPerformed
         // TODO add your handling code here:
+<<<<<<< HEAD
+
+        int uid = AppSession.userid;
+
+        try {
+
+=======
         
          int uid=AppSession.userid;
         
         try {
            
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("select privpass from usertbl where userid=?");
             pst.setInt(1, uid);
             ResultSet rs = pst.executeQuery();
+<<<<<<< HEAD
+
+            int current_ps = Integer.parseInt(txtps.getText());
+            if (rs.next()) {
+
+                int ps = rs.getInt("privpass");
+
+                if (ps == current_ps) {
+
+                    new noteprivspace().setVisible(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Password is incorrect !");
+
+                }
+            }
+
+        } catch (NumberFormatException np) {
+
+            JOptionPane.showMessageDialog(null, "Invalid password format. Please enter a numeric value.");
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null,e.getMessage());
+=======
            
             int current_ps=Integer.parseInt(txtps.getText());
             if(rs.next()){
@@ -162,6 +231,7 @@ public class privspacelogin extends javax.swing.JFrame {
         catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, e);
+>>>>>>> b36abb176f81720c432cd548429faa122b8fade0
         }
 
     }//GEN-LAST:event_btnconfirmActionPerformed
