@@ -315,9 +315,14 @@ public class viewcategory extends javax.swing.JFrame {
     private void btnprivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprivateActionPerformed
         // TODO add your handling code here:
        DefaultTableModel model=(DefaultTableModel) tblnote.getModel();
+       int row = tblnote.getSelectedRow();
        
         
         try {
+            if(row == -1){
+                        JOptionPane.showMessageDialog(null, "Please Select a Note To Add !");
+                        return;
+            }
             int[] multiplenote=tblnote.getSelectedRows();
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("update tblnote set privkey=? where noteid=?");
