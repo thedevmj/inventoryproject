@@ -101,7 +101,6 @@ public class createnote extends javax.swing.JFrame {
         lbldt.setText("");
     }
 
-   
     private void loadtable() {
 
         DefaultTableModel model = (DefaultTableModel) tblnotes.getModel();
@@ -171,11 +170,11 @@ public class createnote extends javax.swing.JFrame {
 
     }
 
-     private void loadolddates(int date){
-     
-         DefaultTableModel model=(DefaultTableModel) tblnotes.getModel();
-        
-         try {
+    private void loadolddates(int date) {
+
+        DefaultTableModel model = (DefaultTableModel) tblnotes.getModel();
+
+        try {
 
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("select * from tblnote where day(notedatetime) > ?");
@@ -192,8 +191,9 @@ public class createnote extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
 
         }
-    
+
     }
+
     private void loadchartable(char name) {
 
         DefaultTableModel model = (DefaultTableModel) tblnotes.getModel();
@@ -256,7 +256,6 @@ public class createnote extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         privspace = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -283,13 +282,14 @@ public class createnote extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblnotes.getTableHeader().setReorderingAllowed(false);
         tblnotes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblnotesMouseClicked(evt);
@@ -357,7 +357,7 @@ public class createnote extends javax.swing.JFrame {
             }
         });
 
-        combos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "alphabet", "Name", "Latest", "Oldest", " ", " " }));
+        combos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Search ->", "Alphabet", "Name", "Latest", "Oldest", " ", " " }));
 
         btnsearch.setText("Search");
         btnsearch.addActionListener(new java.awt.event.ActionListener() {
@@ -392,14 +392,6 @@ public class createnote extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(jMenu4);
-
-        jMenu2.setText("Search");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu2MouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -436,8 +428,8 @@ public class createnote extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)
                                 .addGap(36, 36, 36))
-                            .addComponent(txttitle, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE))
+                            .addComponent(txttitle, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))
                         .addGap(24, 24, 24))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -710,14 +702,6 @@ public class createnote extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        // TODO add your handling code here:
-        txtsearch.setVisible(true);
-        combos.setVisible(true);
-
-
-    }//GEN-LAST:event_jMenu2MouseClicked
-
     private void btnsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsearchActionPerformed
         // TODO add your handling code here:
         String selectedsearch = combos.getSelectedItem().toString();
@@ -730,25 +714,25 @@ public class createnote extends javax.swing.JFrame {
                     selectedsearch = "";
                 }
                 break;
-
+                
             case "Latest":
                 int date = Integer.parseInt(notename);
                 loaddatetimetable(date);
                 selectedsearch = "";
                 break;
-            
+
             case "Oldest":
-                int date_2=Integer.parseInt(notename);
+                int date_2 = Integer.parseInt(notename);
                 loadolddates(date_2);
-                selectedsearch="";
-            case "alphabet":
+                selectedsearch = "";
+            case "Alphabet":
                 char note = notename.charAt(0);
                 loadchartable(note);
                 selectedsearch = "";
 
                 break;
 
-            case "":
+            case "Search ->":
                 JOptionPane.showMessageDialog(null, "Please select How to search !");
                 selectedsearch = "";
                 break;
@@ -815,7 +799,6 @@ public class createnote extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
