@@ -43,14 +43,6 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu4MouseClicked"/>
           </Events>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Search"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu2MouseClicked"/>
-          </Events>
-        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
@@ -115,8 +107,8 @@
                               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="txttitle" pref="511" max="32767" attributes="0"/>
-                          <Component id="jScrollPane2" alignment="0" pref="511" max="32767" attributes="0"/>
+                          <Component id="txttitle" pref="502" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="502" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
@@ -194,9 +186,9 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Title" type="java.lang.Object"/>
-                <Column editable="true" title="Content" type="java.lang.Object"/>
-                <Column editable="true" title="Date Time" type="java.lang.Object"/>
+                <Column editable="false" title="Title" type="java.lang.Object"/>
+                <Column editable="false" title="Content" type="java.lang.Object"/>
+                <Column editable="false" title="Date Time" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -224,7 +216,7 @@
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
@@ -321,13 +313,14 @@
     <Component class="javax.swing.JComboBox" name="combos">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="alphabet"/>
-            <StringItem index="1" value="Name"/>
-            <StringItem index="2" value="Latest"/>
-            <StringItem index="3" value="Oldest"/>
-            <StringItem index="4" value=" "/>
+          <StringArray count="7">
+            <StringItem index="0" value="Search -&gt;"/>
+            <StringItem index="1" value="Alphabet"/>
+            <StringItem index="2" value="Name"/>
+            <StringItem index="3" value="Latest"/>
+            <StringItem index="4" value="Oldest"/>
             <StringItem index="5" value=" "/>
+            <StringItem index="6" value=" "/>
           </StringArray>
         </Property>
       </Properties>
