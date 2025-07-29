@@ -5,9 +5,11 @@
  */
 package newpackage;
 
+
 import dao.connectionprovider;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -29,12 +31,14 @@ public class noteprivspace extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         loadtable();
         hideid();
+
     }
 
     private void hideid() {
 
         TableColumnModel tcm = tblnoteshow.getColumnModel();
         tcm.removeColumn(tcm.getColumn(0));
+        tcm.removeColumn(tcm.getColumn(1));
 
     }
 
@@ -46,11 +50,11 @@ public class noteprivspace extends javax.swing.JFrame {
         try {
             Connection con = connectionprovider.getCon();
             Statement st = con.createStatement();
-            ResultSet crs = st.executeQuery("select tblnote.noteid ,tblnote.notetitle from tblnote where privkey=1 and (categoryfk = 0 or categoryfk != 0)");
+            ResultSet crs = st.executeQuery("select tblnote.noteid ,tblnote.notetitle,tblnote.notecontent  from tblnote where privkey=1 and (categoryfk = 0 or categoryfk != 0)");
 
             while (crs.next()) {
-                model.addRow(new Object[]{(crs.getInt("noteid")), crs.getString("notetitle")});
-
+                model.addRow(new Object[]{(crs.getInt("noteid")), crs.getString("notetitle"), crs.getString("notecontent")});
+                
             }
 
         } catch (SQLException e) {
@@ -74,8 +78,15 @@ public class noteprivspace extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblnoteshow = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        showcontent = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -104,15 +115,31 @@ public class noteprivspace extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Notes"
+                "ID", "Notes", "Content"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblnoteshow.setColumnSelectionAllowed(true);
+        tblnoteshow.getTableHeader().setReorderingAllowed(false);
         tblnoteshow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblnoteshowMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblnoteshow);
+        tblnoteshow.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        showcontent.setEditable(false);
+        showcontent.setColumns(20);
+        showcontent.setRows(5);
+        jScrollPane1.setViewportView(showcontent);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,30 +148,34 @@ public class noteprivspace extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(387, 387, 387)
                 .addComponent(jLabel1)
-                .addContainerGap(357, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(btnremove))
-                .addGap(117, 117, 117))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(btnremove))
+                        .addGap(117, 117, 117))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(41, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnremove)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnremove)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(124, 124, 124))
         );
@@ -188,20 +219,33 @@ public class noteprivspace extends javax.swing.JFrame {
         try {
             TableModel model = tblnoteshow.getModel();
             int index = tblnoteshow.getSelectedRow();
-            Object Nid=model.getValueAt(index, 0);
-           
+            Object Nid = model.getValueAt(index, 0);
+            String notecontent = (String) model.getValueAt(index, 2);
+            showcontent.setText(notecontent);
+
             if (tblnoteshow.getRowCount() == -1) {
-                System.out.println("row count is -1 ");
+                JOptionPane.showMessageDialog(null, "No row selected !");
             } else {
-                nid=Integer.parseInt(Nid.toString());
-                                System.out.println("Current id "+ nid);
+                nid = Integer.parseInt(Nid.toString());
 
             }
+
         } catch (NumberFormatException np) {
 
-           System.out.println(np);
+            JOptionPane.showMessageDialog(null, "Unknown format Error ocurred !");
+        } catch (ArrayIndexOutOfBoundsException ap) {
+            JOptionPane.showMessageDialog(null, "The column doesn't Exist !");
+
         }
     }//GEN-LAST:event_tblnoteshowMouseClicked
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+        showcontent.setText("");
+        tblnoteshow.clearSelection();
+
+
+    }//GEN-LAST:event_formMouseClicked
 
     /**
      * @param args the command line arguments
@@ -242,7 +286,9 @@ public class noteprivspace extends javax.swing.JFrame {
     private javax.swing.JButton btnremove;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea showcontent;
     private javax.swing.JTable tblnoteshow;
     // End of variables declaration//GEN-END:variables
 }
