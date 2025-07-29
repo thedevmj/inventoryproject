@@ -146,7 +146,16 @@ public class viewcategory extends javax.swing.JFrame {
             new String [] {
                 "ID", "Categoryname"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblcategory.getTableHeader().setReorderingAllowed(false);
         tblcategory.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblcategoryMouseClicked(evt);
@@ -163,7 +172,16 @@ public class viewcategory extends javax.swing.JFrame {
             new String [] {
                 "ID", "Title", "Content", "Date-Time"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblnote.getTableHeader().setReorderingAllowed(false);
         tblnote.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblnoteMouseClicked(evt);
