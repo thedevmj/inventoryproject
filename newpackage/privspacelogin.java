@@ -24,9 +24,35 @@ public class privspacelogin extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+
     }
 
     
+=======
+
+
+    }
+
+    private String getemail() {
+      String email="";
+        try {
+            int uid=AppSession.userid;
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select usergmail from usertbl where userid=?");
+            pst.setInt(1, uid);
+            ResultSet rs = pst.executeQuery();    
+            if (rs.next()) {
+               email = rs.getString("usergmail");               
+            }
+        } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+
+        }
+        
+     return email;
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,7 +154,16 @@ public class privspacelogin extends javax.swing.JFrame {
 
     private void lblpsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblpsMouseClicked
         // TODO add your handling code here:
+
+
+        emailservice es = new emailservice();
+        otpgeneration genotp = new otpgeneration();
        
+        String mail=getemail();
+        es.sendOTP(mail, genotp.generateotp(6));
+
+
+
         new resetps().setVisible(true);
         
 
@@ -137,15 +172,31 @@ public class privspacelogin extends javax.swing.JFrame {
     private void btnconfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmActionPerformed
         // TODO add your handling code here:
 
+
         int uid = AppSession.userid;
 
         
         try {
            
+
+
+
+        int uid = AppSession.userid;
+
+        try {
+
+
+        
+         int uid=AppSession.userid;
+        
+        try {
+           
+
+
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("select privpass from usertbl where userid=?");
             pst.setInt(1, uid);
-            ResultSet rs = pst.executeQuery();
+
 
             int current_ps = Integer.parseInt(txtps.getText());
             if (rs.next()) {
@@ -169,11 +220,20 @@ public class privspacelogin extends javax.swing.JFrame {
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null,e.getMessage());
+
            
         }
     
         
     }//GEN-LAST:event_btnconfirmActionPerformed
+
+
+
+           
+        }
+
+    }
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:

@@ -14,4 +14,3 @@ package newpackage;
 public class AppSession {
     public static int userid=-1;
 }
-

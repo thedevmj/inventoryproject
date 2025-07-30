@@ -29,6 +29,7 @@ public class resetps extends javax.swing.JFrame {
     public resetps() {
         initComponents();
         setLocationRelativeTo(null);
+
         otpgeneration genotp = new otpgeneration();
         emailservice es = new emailservice();
         String mail = getemail();
@@ -58,6 +59,12 @@ public class resetps extends javax.swing.JFrame {
         }
 
         return email;
+
+
+        JOptionPane.showMessageDialog(this, "OTP sent! Please check your email.");
+
+        
+
     }
 
     /**
@@ -68,6 +75,7 @@ public class resetps extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
 
         jLabel1 = new javax.swing.JLabel();
         lblotp = new javax.swing.JLabel();
@@ -99,6 +107,7 @@ public class resetps extends javax.swing.JFrame {
             }
         });
 
+
         btnverify.setText("Verify");
         btnverify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,15 +115,29 @@ public class resetps extends javax.swing.JFrame {
             }
         });
 
+
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(324, 324, 324)
                         .addComponent(jLabel1))
+
+
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -155,15 +178,34 @@ public class resetps extends javax.swing.JFrame {
                     .addComponent(passlbl))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+
                     .addComponent(btnsaveps)
                     .addComponent(jButton1))
-                .addContainerGap(454, Short.MAX_VALUE))
+
+                    .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(29, 29, 29)
+                .addComponent(jButton1)
+                .addContainerGap(168, Short.MAX_VALUE))
+
+            .addGap(0, 501, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 424, Short.MAX_VALUE)
+
+
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void btnsavepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsavepsActionPerformed
+
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         // TODO add your handling code here:
         String savepass=txtnew.getText();
         if (!savepass.equals("") && savepass.matches("\\d{4}")) {
@@ -200,6 +242,7 @@ public class resetps extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+
     private void btnverifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnverifyActionPerformed
         // TODO add your handling code here:
         if (!ps.getText().equals(userotp)) {
@@ -224,6 +267,7 @@ public class resetps extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnverifyActionPerformed
 
+
     /**
      * @param args the command line arguments
      */
@@ -238,6 +282,27 @@ public class resetps extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
+
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(resetps.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -248,6 +313,7 @@ public class resetps extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(resetps.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         }
         //</editor-fold>
 
@@ -260,6 +326,7 @@ public class resetps extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JButton btnsaveps;
     private javax.swing.JButton btnverify;
     private javax.swing.JButton jButton1;
@@ -269,4 +336,7 @@ public class resetps extends javax.swing.JFrame {
     private javax.swing.JTextField ps;
     private javax.swing.JTextField txtnew;
     // End of variables declaration//GEN-END:variables
+
+
+
 }
