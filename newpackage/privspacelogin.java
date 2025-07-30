@@ -5,11 +5,8 @@
  */
 package newpackage;
 
-
 import services.emailservice;
 import services.otpgeneration;
-
-
 import dao.connectionprovider;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -26,6 +23,12 @@ public class privspacelogin extends javax.swing.JFrame {
     public privspacelogin() {
         initComponents();
         setLocationRelativeTo(null);
+
+
+    }
+
+    
+=======
 
 
     }
@@ -152,6 +155,7 @@ public class privspacelogin extends javax.swing.JFrame {
     private void lblpsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblpsMouseClicked
         // TODO add your handling code here:
 
+
         emailservice es = new emailservice();
         otpgeneration genotp = new otpgeneration();
        
@@ -159,13 +163,22 @@ public class privspacelogin extends javax.swing.JFrame {
         es.sendOTP(mail, genotp.generateotp(6));
 
 
-        new resetps().setVisible(true);
 
+        new resetps().setVisible(true);
+        
 
     }//GEN-LAST:event_lblpsMouseClicked
 
     private void btnconfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmActionPerformed
         // TODO add your handling code here:
+
+
+        int uid = AppSession.userid;
+
+        
+        try {
+           
+
 
 
         int uid = AppSession.userid;
@@ -179,10 +192,10 @@ public class privspacelogin extends javax.swing.JFrame {
         try {
            
 
+
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("select privpass from usertbl where userid=?");
             pst.setInt(1, uid);
-            ResultSet rs = pst.executeQuery();
 
 
             int current_ps = Integer.parseInt(txtps.getText());
@@ -210,9 +223,18 @@ public class privspacelogin extends javax.swing.JFrame {
 
            
         }
+    
+        
+    }//GEN-LAST:event_btnconfirmActionPerformed
+
+
+
+           
+        }
 
     }
     }
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         setVisible(false);

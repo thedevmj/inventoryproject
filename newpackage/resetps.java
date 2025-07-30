@@ -5,19 +5,23 @@
  */
 package newpackage;
 
-
-
+import services.otpgeneration;
+import services.delaytask;
 import dao.connectionprovider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-
+import services.emailservice;
 
 /**
  *
  * @author Junaid Mansuri
  */
 public class resetps extends javax.swing.JFrame {
+
+    private String userotp = "";
+    private String pass = "";
 
     /**
      * Creates new form resetps
@@ -26,9 +30,41 @@ public class resetps extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+        otpgeneration genotp = new otpgeneration();
+        emailservice es = new emailservice();
+        String mail = getemail();
+        delaytask.delay(2000, () -> (JOptionPane.showMessageDialog(null, "OTP sent successfully to Email Address - " + mail)));
+        userotp = genotp.generateotp(6);
+        es.sendOTP(mail, userotp);
+        passlbl.setText("New Password :");
+        passlbl.setEnabled(false);
+        txtnew.setEnabled(false);
+
+    }
+
+    private String getemail() {
+        String email = "";
+        try {
+            int uid = AppSession.userid;
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select usergmail from usertbl where userid=?");
+            pst.setInt(1, uid);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                email = rs.getString("usergmail");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+
+        }
+
+        return email;
+
+
         JOptionPane.showMessageDialog(this, "OTP sent! Please check your email.");
 
         
+
     }
 
     /**
@@ -42,18 +78,29 @@ public class resetps extends javax.swing.JFrame {
 
 
         jLabel1 = new javax.swing.JLabel();
+        lblotp = new javax.swing.JLabel();
         ps = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        btnsaveps = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        txtnew = new javax.swing.JTextField();
+        passlbl = new javax.swing.JLabel();
+        btnverify = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setText("Reset Password");
+        jLabel1.setText("Reset   password");
 
-        jLabel2.setText("New Password");
+        lblotp.setText("Enter password");
 
-        jButton1.setText("Reset");
+        btnsaveps.setText("save");
+        btnsaveps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsavepsActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Close");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -61,7 +108,17 @@ public class resetps extends javax.swing.JFrame {
         });
 
 
+        btnverify.setText("Verify");
+        btnverify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnverifyActionPerformed(evt);
+            }
+        });
+
+
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
 
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -69,25 +126,62 @@ public class resetps extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(324, 324, 324)
+                        .addComponent(jLabel1))
+
+
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1)
+
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))))
-                .addGap(139, 139, 139))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(157, 157, 157)
+                                .addComponent(lblotp)
+                                .addGap(26, 26, 26))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(passlbl)
+                                .addGap(37, 37, 37)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtnew)
+                            .addComponent(ps, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE))
+                        .addGap(47, 47, 47)
+                        .addComponent(btnverify)))
+                .addContainerGap(220, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnsaveps)
+                .addGap(324, 324, 324))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(52, 52, 52)
+                .addGap(67, 67, 67)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblotp)
+                            .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnverify))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtnew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passlbl))
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+
+                    .addComponent(btnsaveps)
+                    .addComponent(jButton1))
+
                     .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(29, 29, 29)
@@ -100,34 +194,78 @@ public class resetps extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 424, Short.MAX_VALUE)
 
+
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
+    private void btnsavepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsavepsActionPerformed
+
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         // TODO add your handling code here:
-        try {
+        String savepass=txtnew.getText();
+        if (!savepass.equals("") && savepass.matches("\\d{4}")) {
 
-            int newpass =Integer.parseInt(ps.getText().trim());
-            int fetchid = AppSession.userid;
-            Connection con = connectionprovider.getCon();
-            PreparedStatement pst = con.prepareStatement("update usertbl set privpass=? where userid=?");
-            pst.setInt(1,newpass);
-            pst.setInt(2, fetchid);
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Password created !");
+            try {
 
-        } catch (NumberFormatException np) {
-            JOptionPane.showMessageDialog(null, "Enter Password in Numbers  !");
+                int newpass = Integer.parseInt(txtnew.getText());
+                int fetchid = AppSession.userid;
+                Connection con = connectionprovider.getCon();
+                PreparedStatement pst = con.prepareStatement("update usertbl set privpass=? where userid=?");
+                pst.setInt(1, newpass);
+                pst.setInt(2, fetchid);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Password Reset sucessfully ");
+                setVisible(false);
+            } catch (NumberFormatException np) {
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "An error occured !" + e);
+                JOptionPane.showMessageDialog(null, "Enter numeric password !");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "An error occured !" + e);
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Password must be 4 digits");
 
         }
 
+
+    }//GEN-LAST:event_btnsavepsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+
+    private void btnverifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnverifyActionPerformed
+        // TODO add your handling code here:
+        if (!ps.getText().equals(userotp)) {
+            JOptionPane.showMessageDialog(null, "Incorrect OTP !");
+            return;
+        } else {
+            try {
+
+                passlbl.setEnabled(true);
+                txtnew.setEnabled(true);
+                btnverify.setEnabled(false);
+                ps.setEnabled(false);
+                lblotp.setEnabled(false);
+
+            } catch (NumberFormatException np) {
+                JOptionPane.showMessageDialog(null, np);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex);
+
+            }
+        }
+    }//GEN-LAST:event_btnverifyActionPerformed
 
 
     /**
@@ -164,6 +302,7 @@ public class resetps extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(resetps.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -188,10 +327,16 @@ public class resetps extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
 
+    private javax.swing.JButton btnsaveps;
+    private javax.swing.JButton btnverify;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblotp;
+    private javax.swing.JLabel passlbl;
     private javax.swing.JTextField ps;
+    private javax.swing.JTextField txtnew;
+    // End of variables declaration//GEN-END:variables
 
-   
+
+
 }
