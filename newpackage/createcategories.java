@@ -14,6 +14,7 @@ import javax.swing.table.TableModel;
 
 /**
  *
+ * 
  * @author Junaid Mansuri
  */
 public class createcategories extends javax.swing.JFrame {
@@ -124,7 +125,16 @@ public class createcategories extends javax.swing.JFrame {
             new String [] {
                 "ID", "Category Name"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblcategoryshow.getTableHeader().setReorderingAllowed(false);
         tblcategoryshow.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 tblcategoryshowFocusLost(evt);
