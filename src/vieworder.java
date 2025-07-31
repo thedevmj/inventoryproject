@@ -129,6 +129,7 @@ public class vieworder extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentShown
 
+    
     private void tblcustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblcustomerMouseClicked
         // TODO add your handling code here:
         int index = tblcustomer.getSelectedRow();
