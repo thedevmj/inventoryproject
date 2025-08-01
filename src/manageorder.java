@@ -109,7 +109,7 @@ public class manageorder extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Manage Order");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 30, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, -1, -1));
 
         tblcustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,7 +126,7 @@ public class manageorder extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblcustomer);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 184, 411, 284));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 411, 284));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Customer List");
@@ -147,7 +147,7 @@ public class manageorder extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblproduct);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 184, -1, 284));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, 500, 284));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Product List");
@@ -168,7 +168,7 @@ public class manageorder extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tblcart);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(955, 184, 398, 284));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 140, 420, 284));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setText("Cart");
@@ -197,35 +197,35 @@ public class manageorder extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
         jLabel9.setText("Selected product");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 486, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 430, -1, -1));
 
         txtproductname.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
-        getContentPane().add(txtproductname, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 553, 364, -1));
+        getContentPane().add(txtproductname, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 490, 364, -1));
 
         jLabel10.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
         jLabel10.setText("Product Name");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 522, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 460, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
         jLabel11.setText("Product Price");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 597, -1, -1));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 530, -1, -1));
 
         txtproductprice.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
-        getContentPane().add(txtproductprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 623, 364, 22));
+        getContentPane().add(txtproductprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 560, 364, 22));
 
         jLabel12.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
         jLabel12.setText("Product description");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 665, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 590, -1, -1));
 
         txtdescription.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
-        getContentPane().add(txtdescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 690, 364, 33));
+        getContentPane().add(txtdescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 620, 364, -1));
 
         jLabel13.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
         jLabel13.setText("Oder Quantity");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 730, -1, -1));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 650, -1, -1));
 
         txtquantity.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
-        getContentPane().add(txtquantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 766, 364, -1));
+        getContentPane().add(txtquantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 680, 364, -1));
 
         jButton1.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 13)); // NOI18N
         jButton1.setText("Add To Cart");
@@ -234,13 +234,13 @@ public class manageorder extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 808, 364, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 720, 364, -1));
 
         jLabel14.setText("Total Amount RS.");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(1066, 499, -1, -1));
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 460, -1, -1));
 
         totalprice.setText("00000");
-        getContentPane().add(totalprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(1174, 499, -1, -1));
+        getContentPane().add(totalprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 460, -1, -1));
 
         btnsaveorder.setText("Save Order Details");
         btnsaveorder.addActionListener(new java.awt.event.ActionListener() {
@@ -248,7 +248,7 @@ public class manageorder extends javax.swing.JFrame {
                 btnsaveorderActionPerformed(evt);
             }
         });
-        getContentPane().add(btnsaveorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(955, 565, 398, -1));
+        getContentPane().add(btnsaveorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 510, 398, -1));
 
         jButton3.setText("Reset");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -256,7 +256,7 @@ public class manageorder extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(955, 622, 398, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 560, 398, -1));
 
         jButton4.setText("Close");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -264,12 +264,12 @@ public class manageorder extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(955, 682, 398, -1));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 610, 398, -1));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Orders_background.png"))); // NOI18N
         jLabel16.setMaximumSize(new java.awt.Dimension(1365, 927));
         jLabel16.setMinimumSize(new java.awt.Dimension(1365, 927));
-        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1370, 1050));
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 1370, 810));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
