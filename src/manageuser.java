@@ -79,7 +79,7 @@ public class manageuser extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Manage user");
         jLabel1.setPreferredSize(new java.awt.Dimension(100, 30));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 240, 49));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 240, 49));
 
         tableUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -96,7 +96,7 @@ public class manageuser extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableUser);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 510));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, 470));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel2.setText("Name");
@@ -176,7 +176,7 @@ public class manageuser extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/All_page_Background.png"))); // NOI18N
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 900, 620));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 850, 620));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

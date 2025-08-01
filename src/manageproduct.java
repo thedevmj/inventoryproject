@@ -116,6 +116,7 @@ public class manageproduct extends javax.swing.JFrame {
         btnclose = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableproduct = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -218,6 +219,10 @@ public class manageproduct extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tableproduct);
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 390, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/All_page_Background.png"))); // NOI18N
+        jLabel3.setText("jLabel3");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -425,6 +430,7 @@ public class manageproduct extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combocategory;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
