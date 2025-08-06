@@ -76,17 +76,20 @@ public class emailservice extends tinfo {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(email));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+
             message.setSubject("Your One Time OTP (otp)");
             message.setText("Your otp is \t" + otp + "\t use this to recover your  Password\n Don't share it with anyone.");
             
+
             Transport.send(message);
-            JOptionPane.showMessageDialog(null, "OTP sent successfully to Email Address - " + email);
+           
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
 
         }
-
+          
     }
 }
+
 

@@ -5,6 +5,7 @@
  */
 package newpackage;
 
+import services.delaytask;
 import dao.connectionprovider;
 import static java.lang.System.exit;
 import java.sql.*;
@@ -15,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import java.io.*;
+import java.util.Vector;
 import javax.swing.JFileChooser;
 
 /**
@@ -33,8 +35,11 @@ public class createnote extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         btnupdate.setEnabled(false);
         loadid();
-//        setupverification();
+        delaytask.delay(1500, () -> (JOptionPane.showMessageDialog(null, "Welcome!")));
+        txtsearch.setVisible(true);
+        combos.setVisible(true);
 
+//        setupverification();
     }
 
 //    private void setupverification() {
@@ -72,6 +77,24 @@ public class createnote extends javax.swing.JFrame {
 
     }
 
+    private boolean getContent() {
+
+        TableModel model = tblnotes.getModel();
+
+        int index = tblnotes.getSelectedRow();
+        if (index < 0) {
+            JOptionPane.showMessageDialog(null, "Please select a note for update !");
+            return false;
+        }
+        String originaltitle = model.getValueAt(index, 1).toString();
+        String originalcontent = model.getValueAt(index, 2).toString();
+        String currenttitle = txttitle.getText();
+        String currentcontent = txtcontent.getText();
+
+        return !originalcontent.equals(currentcontent) || !originaltitle.equals(currenttitle);
+
+    }
+
     private void emptyfield() {
         txttitle.setText("");
         txtcontent.setText("");
@@ -97,6 +120,99 @@ public class createnote extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
         tblnotes.repaint();
+
+    }
+
+    private void loadsearchtable(String name) {
+
+        DefaultTableModel model = (DefaultTableModel) tblnotes.getModel();
+
+        try {
+
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select * from tblnote where notetitle = ?");
+            pst.setString(1, name);
+
+            ResultSet rs = pst.executeQuery();
+            model.setRowCount(0);
+            while (rs.next()) {
+
+                model.addRow(new Object[]{rs.getInt("noteid"), rs.getString("notetitle"), rs.getString("notecontent"), rs.getString("notedatetime")});
+
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        }
+    }
+
+    private void loaddatetimetable(int date) {
+        DefaultTableModel model = (DefaultTableModel) tblnotes.getModel();
+
+        try {
+
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select * from tblnote where day(notedatetime) < ?");
+            pst.setInt(1, date);
+            ResultSet rs = pst.executeQuery();
+            model.setRowCount(0);
+            while (rs.next()) {
+
+                model.addRow(new Object[]{rs.getInt("noteid"), rs.getString("notetitle"), rs.getString("notecontent"), rs.getString("notedatetime")});
+
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        }
+
+    }
+
+    private void loadolddates(int date) {
+
+        DefaultTableModel model = (DefaultTableModel) tblnotes.getModel();
+
+        try {
+
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select * from tblnote where day(notedatetime) > ?");
+            pst.setInt(1, date);
+            ResultSet rs = pst.executeQuery();
+            model.setRowCount(0);
+            while (rs.next()) {
+
+                model.addRow(new Object[]{rs.getInt("noteid"), rs.getString("notetitle"), rs.getString("notecontent"), rs.getString("notedatetime")});
+
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        }
+
+    }
+
+    private void loadchartable(char name) {
+
+        DefaultTableModel model = (DefaultTableModel) tblnotes.getModel();
+        try {
+
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select * from tblnote where LOWER(notetitle) like ?");
+            pst.setString(1, Character.toLowerCase(name) + "%");
+            ResultSet rs = pst.executeQuery();
+            model.setRowCount(0);
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getInt("noteid"), rs.getString("notetitle"), rs.getString("notecontent"), rs.getString("notedatetime")});
+
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        }
 
     }
 
@@ -133,6 +249,9 @@ public class createnote extends javax.swing.JFrame {
         txttitle = new javax.swing.JTextField();
         lbldt = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        txtsearch = new javax.swing.JTextField();
+        combos = new javax.swing.JComboBox<>();
+        btnsearch = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         privspace = new javax.swing.JMenu();
@@ -163,13 +282,14 @@ public class createnote extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblnotes.getTableHeader().setReorderingAllowed(false);
         tblnotes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblnotesMouseClicked(evt);
@@ -231,6 +351,21 @@ public class createnote extends javax.swing.JFrame {
             }
         });
 
+        txtsearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtsearchFocusGained(evt);
+            }
+        });
+
+        combos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Search ->", "Alphabet", "Name", "Latest", "Oldest", " ", " " }));
+
+        btnsearch.setText("Search");
+        btnsearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsearchActionPerformed(evt);
+            }
+        });
+
         jMenu1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jMenu1.setText("Open Text File      ");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -272,33 +407,45 @@ public class createnote extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(191, 191, 191)
                         .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnupdate, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnclose, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(381, 381, 381)
+                .addComponent(combos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addGap(142, 142, 142)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbldt)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)
                                 .addGap(36, 36, 36))
-                            .addComponent(txttitle, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE))
+                            .addComponent(txttitle, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))
                         .addGap(24, 24, 24))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnupdate, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnclose, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnsearch)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnsearch))
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -319,7 +466,7 @@ public class createnote extends javax.swing.JFrame {
                             .addComponent(btnupdate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnclose, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 96, Short.MAX_VALUE))
+                .addGap(0, 93, Short.MAX_VALUE))
         );
 
         pack();
@@ -327,7 +474,7 @@ public class createnote extends javax.swing.JFrame {
 
     private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
         // TODO add your handling code here:
-        String title = txttitle.getText();
+        String title = txttitle.getText().trim();
         String content = txtcontent.getText();
         if (!validateform("new")) {
             JOptionPane.showMessageDialog(null, "Please fill all fields");
@@ -371,6 +518,7 @@ public class createnote extends javax.swing.JFrame {
 
         loadtable();
 
+
     }//GEN-LAST:event_formComponentShown
 
     private void txttitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttitleActionPerformed
@@ -405,22 +553,29 @@ public class createnote extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill all fields");
 
         } else {
-            try {
 
-                Connection con = connectionprovider.getCon();
-                PreparedStatement pst = con.prepareStatement("update tblnote set notetitle=?,notecontent=? where noteid=?");
-                pst.setString(1, title);
-                pst.setString(2, content);
-                pst.setInt(3, noteid);
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Note Updated");
+            if (getContent()) {
+                try {
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
+                    Connection con = connectionprovider.getCon();
+                    PreparedStatement pst = con.prepareStatement("update tblnote set notetitle=?,notecontent=? where noteid=?");
+                    pst.setString(1, title);
+                    pst.setString(2, content);
+                    pst.setInt(3, noteid);
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Note Updated");
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+
+                }
+                loadtable();
+                emptyfield();
+            } else {
+                JOptionPane.showMessageDialog(null, "Cannot update ,No changes detected ");
 
             }
-            loadtable();
-            emptyfield();
+
         }
     }//GEN-LAST:event_btnupdateActionPerformed
 
@@ -492,6 +647,10 @@ public class createnote extends javax.swing.JFrame {
         } else {
             lbldt.setText("Date And Time :");
         }
+        loadtable();
+        txtsearch.setText("");
+        btnsearch.setEnabled(false);
+
     }//GEN-LAST:event_formMouseClicked
 
     private void privspaceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_privspaceMouseClicked
@@ -545,6 +704,50 @@ public class createnote extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btndeleteActionPerformed
 
+    private void btnsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsearchActionPerformed
+        // TODO add your handling code here:
+        String selectedsearch = combos.getSelectedItem().toString();
+        String notename = txtsearch.getText().trim();
+        switch (selectedsearch) {
+
+            case "Name":
+                if (!notename.equals("")) {
+                    loadsearchtable(notename);
+                    selectedsearch = "";
+                }
+                break;
+                
+            case "Latest":
+                int date = Integer.parseInt(notename);
+                loaddatetimetable(date);
+                selectedsearch = "";
+                break;
+
+            case "Oldest":
+                int date_2 = Integer.parseInt(notename);
+                loadolddates(date_2);
+                selectedsearch = "";
+            case "Alphabet":
+                char note = notename.charAt(0);
+                loadchartable(note);
+                selectedsearch = "";
+
+                break;
+
+            case "Search ->":
+                JOptionPane.showMessageDialog(null, "Please select How to search !");
+                selectedsearch = "";
+                break;
+        }
+
+
+    }//GEN-LAST:event_btnsearchActionPerformed
+
+    private void txtsearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtsearchFocusGained
+        // TODO add your handling code here:
+        btnsearch.setEnabled(true);
+    }//GEN-LAST:event_txtsearchFocusGained
+
     /**
      * @param args the command line arguments
      */
@@ -559,16 +762,24 @@ public class createnote extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(createnote.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(createnote.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(createnote.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(createnote.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(createnote.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(createnote.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(createnote.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(createnote.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -584,7 +795,9 @@ public class createnote extends javax.swing.JFrame {
     private javax.swing.JButton btnclose;
     private javax.swing.JButton btndelete;
     private javax.swing.JButton btnsave;
+    private javax.swing.JButton btnsearch;
     private javax.swing.JButton btnupdate;
+    private javax.swing.JComboBox<String> combos;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -596,6 +809,7 @@ public class createnote extends javax.swing.JFrame {
     private javax.swing.JMenu privspace;
     private javax.swing.JTable tblnotes;
     private javax.swing.JTextArea txtcontent;
+    private javax.swing.JTextField txtsearch;
     private javax.swing.JTextField txttitle;
     // End of variables declaration//GEN-END:variables
 }

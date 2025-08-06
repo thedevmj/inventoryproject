@@ -153,7 +153,7 @@ public class loginpage extends javax.swing.JFrame {
                 
 
                 new createnote().setVisible(true);
-                JOptionPane.showMessageDialog(null, "Welcome!");
+                
                 setVisible(false);
 
             } else {
