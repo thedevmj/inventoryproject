@@ -65,7 +65,6 @@ public class createnote extends javax.swing.JFrame {
 //        }
 //
 //    }
-
     private void loadid() {
 
         TableColumnModel tcm = tblnotes.getColumnModel();
@@ -344,11 +343,13 @@ public class createnote extends javax.swing.JFrame {
                 String formattedtime = currenttime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
                 Connection con = connectionprovider.getCon();
-                PreparedStatement pst = con.prepareStatement("insert into tblnote (notetitle,notecontent,notedatetime) values(?,?,?)");
+                PreparedStatement pst = con.prepareStatement("insert into tblnote (notetitle,notecontent,notedatetime,privkey,categoryfk) values(?,?,?,?,?)");
 
                 pst.setString(1, title);
                 pst.setString(2, content);
                 pst.setString(3, formattedtime);
+                pst.setInt(4, 0);
+                pst.setInt(5, 0);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Note Saved");
                 txttitle.setText("Add Title...");
@@ -505,11 +506,11 @@ public class createnote extends javax.swing.JFrame {
                 boolean setup = rs.getBoolean("privsetup");
                 System.out.println(setup);
                 if (setup) {
-                    new privspacelogin().setVisible(true);
+                    new privspacelogin1().setVisible(true);
                 } else {
                     int vid = rs.getInt("privsetup");
                     if (vid == 0) {
-                        
+
                         new setprivspacepass().setVisible(true);
 
                     }

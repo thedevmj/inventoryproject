@@ -158,8 +158,14 @@ public class noteprivspace extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentShown
 
     private void btnremoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnremoveActionPerformed
-        // TODO add your handling code here:
+             // TODO add your handling code here:
 
+                    int index = tblnoteshow.getSelectedRow();
+             if(index == -1 ){
+                         JOptionPane.showMessageDialog(null, "No Note Selected !");
+
+             }
+             else{
         try {
 
             Connection con = connectionprovider.getCon();
@@ -173,7 +179,7 @@ public class noteprivspace extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error removing note ");
 
-        }
+        }}
         loadtable();
     }//GEN-LAST:event_btnremoveActionPerformed
 
@@ -188,18 +194,18 @@ public class noteprivspace extends javax.swing.JFrame {
         try {
             TableModel model = tblnoteshow.getModel();
             int index = tblnoteshow.getSelectedRow();
-            Object Nid=model.getValueAt(index, 0);
-           
+            Object Nid = model.getValueAt(index, 0);
+
             if (tblnoteshow.getRowCount() == -1) {
                 System.out.println("row count is -1 ");
             } else {
-                nid=Integer.parseInt(Nid.toString());
-                                System.out.println("Current id "+ nid);
+                nid = Integer.parseInt(Nid.toString());
+                System.out.println("Current id " + nid);
 
             }
         } catch (NumberFormatException np) {
 
-           System.out.println(np);
+            System.out.println(np);
         }
     }//GEN-LAST:event_tblnoteshowMouseClicked
 

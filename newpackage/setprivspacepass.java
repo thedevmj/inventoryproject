@@ -155,8 +155,8 @@ public class setprivspacepass extends javax.swing.JFrame {
 
                     ps1.setText("");
                     ps2.setText("");
-                    setupinfo.setup = true;
-                    if (setupinfo.setup == true) {
+                    setupinfo1.setup = true;
+                    if (setupinfo1.setup == true) {
                         setVisible(false);
 
                     }

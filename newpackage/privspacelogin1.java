@@ -5,6 +5,8 @@
  */
 package newpackage;
 
+import services.emailservice;
+import services.otpgeneration;
 import dao.connectionprovider;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -13,14 +15,34 @@ import javax.swing.JOptionPane;
  *
  * @author Junaid Mansuri
  */
-public class privspacelogin extends javax.swing.JFrame {
+public class privspacelogin1 extends javax.swing.JFrame {
 
     /**
      * Creates new form privspacelogin
      */
-    public privspacelogin() {
+    public privspacelogin1() {
         initComponents();
         setLocationRelativeTo(null);
+
+    }
+
+    private String getemail() {
+      String email="";
+        try {
+            int uid=AppSession.userid;
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select usergmail from usertbl where userid=?");
+            pst.setInt(1, uid);
+            ResultSet rs = pst.executeQuery();    
+            if (rs.next()) {
+               email = rs.getString("usergmail");               
+            }
+        } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+
+        }
+        
+     return email;
     }
 
     /**
@@ -124,15 +146,20 @@ public class privspacelogin extends javax.swing.JFrame {
 
     private void lblpsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblpsMouseClicked
         // TODO add your handling code here:
-        new resetps().setVisible(true);
+        otpgeneration genotp = new otpgeneration();
+        emailservice es=new emailservice();
+        String mail=getemail();
+        es.sendOTP(mail, genotp.generateotp(6));
+        new resetps1().setVisible(true);
 
 
     }//GEN-LAST:event_lblpsMouseClicked
 
     private void btnconfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmActionPerformed
         // TODO add your handling code here:
-        
-         int uid=AppSession.userid;
+
+        int uid = AppSession.userid;
+
         
         try {
            
@@ -140,30 +167,33 @@ public class privspacelogin extends javax.swing.JFrame {
             PreparedStatement pst = con.prepareStatement("select privpass from usertbl where userid=?");
             pst.setInt(1, uid);
             ResultSet rs = pst.executeQuery();
-           
-            int current_ps=Integer.parseInt(txtps.getText());
-            if(rs.next()){
-                 int ps = rs.getInt("privpass");
-            if (ps == current_ps) {
 
-                new noteprivspace().setVisible(true);
+            int current_ps = Integer.parseInt(txtps.getText());
+            if (rs.next()) {
 
-            } else {
-                JOptionPane.showMessageDialog(null, "Password is incorrect !");
+                int ps = rs.getInt("privpass");
 
-            }}
-            
-        } 
-        catch (NumberFormatException np) {
+                if (ps == current_ps) {
+
+                    new noteprivspace().setVisible(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Password is incorrect !");
+
+                }
+            }
+
+        } catch (NumberFormatException np) {
 
             JOptionPane.showMessageDialog(null, "Invalid password format. Please enter a numeric value.");
-            
-        }
-        catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, e);
-        }
+        } catch (Exception e) {
 
+            JOptionPane.showMessageDialog(null,e.getMessage());
+           
+        }
+    
+        
     }//GEN-LAST:event_btnconfirmActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -189,20 +219,21 @@ public class privspacelogin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(privspacelogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(privspacelogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(privspacelogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(privspacelogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(privspacelogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(privspacelogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(privspacelogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(privspacelogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new privspacelogin().setVisible(true);
+                new privspacelogin1().setVisible(true);
             }
         });
     }
