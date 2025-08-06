@@ -708,6 +708,7 @@ public class createnote extends javax.swing.JFrame {
         // TODO add your handling code here:
         String selectedsearch = combos.getSelectedItem().toString();
         String notename = txtsearch.getText().trim();
+       try{
         switch (selectedsearch) {
 
             case "Name":
@@ -724,6 +725,7 @@ public class createnote extends javax.swing.JFrame {
                 break;
 
             case "Oldest":
+                
                 int date_2 = Integer.parseInt(notename);
                 loadolddates(date_2);
                 selectedsearch = "";
@@ -739,6 +741,14 @@ public class createnote extends javax.swing.JFrame {
                 selectedsearch = "";
                 break;
         }
+       }
+       catch(NumberFormatException np){
+       JOptionPane.showMessageDialog(null, "Format doesn't match Search !");
+       }
+       catch(Exception ex){
+              JOptionPane.showMessageDialog(null, "An Unknown Error occurred");
+
+       }
 
 
     }//GEN-LAST:event_btnsearchActionPerformed
