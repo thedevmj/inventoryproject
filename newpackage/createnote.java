@@ -708,47 +708,47 @@ public class createnote extends javax.swing.JFrame {
         // TODO add your handling code here:
         String selectedsearch = combos.getSelectedItem().toString();
         String notename = txtsearch.getText().trim();
-       try{
-        switch (selectedsearch) {
+        try {
+            switch (selectedsearch) {
 
-            case "Name":
-                if (!notename.equals("")) {
-                    loadsearchtable(notename);
+                case "Name":
+                    if (!notename.equals("")) {
+                        loadsearchtable(notename);
+                        selectedsearch = "";
+                    }
+                    break;
+
+                case "Latest":
+                    int date = Integer.parseInt(notename);
+                    loaddatetimetable(date);
                     selectedsearch = "";
-                }
-                break;
-                
-            case "Latest":
-                int date = Integer.parseInt(notename);
-                loaddatetimetable(date);
-                selectedsearch = "";
-                break;
+                    break;
 
-            case "Oldest":
-                
-                int date_2 = Integer.parseInt(notename);
-                loadolddates(date_2);
-                selectedsearch = "";
-            case "Alphabet":
-                char note = notename.charAt(0);
-                loadchartable(note);
-                selectedsearch = "";
+                case "Oldest":
+                    if (!notename.equals("")) {
+                        int date_2 = Integer.parseInt(notename);
+                        loadolddates(date_2);
+                        selectedsearch = "";
+                    }
+                    break;
+                case "Alphabet":
+                    char note = notename.charAt(0);
+                    loadchartable(note);
+                    selectedsearch = "";
 
-                break;
+                    break;
 
-            case "Search ->":
-                JOptionPane.showMessageDialog(null, "Please select How to search !");
-                selectedsearch = "";
-                break;
+                case "Search ->":
+                    JOptionPane.showMessageDialog(null, "Please select How to search !");
+                    selectedsearch = "";
+                    break;
+            }
+        } catch (NumberFormatException np) {
+            JOptionPane.showMessageDialog(null, "Format doesn't match Search !");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "An Unknown Error occurred");
+
         }
-       }
-       catch(NumberFormatException np){
-       JOptionPane.showMessageDialog(null, "Format doesn't match Search !");
-       }
-       catch(Exception ex){
-              JOptionPane.showMessageDialog(null, "An Unknown Error occurred");
-
-       }
 
 
     }//GEN-LAST:event_btnsearchActionPerformed

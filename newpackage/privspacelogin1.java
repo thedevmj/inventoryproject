@@ -10,13 +10,14 @@ import services.otpgeneration;
 import dao.connectionprovider;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import services.delaytask;
 
 /**
  *
  * @author Junaid Mansuri
  */
 public class privspacelogin1 extends javax.swing.JFrame {
-
+  
     /**
      * Creates new form privspacelogin
      */
@@ -26,25 +27,7 @@ public class privspacelogin1 extends javax.swing.JFrame {
 
     }
 
-    private String getemail() {
-      String email="";
-        try {
-            int uid=AppSession.userid;
-            Connection con = connectionprovider.getCon();
-            PreparedStatement pst = con.prepareStatement("select usergmail from usertbl where userid=?");
-            pst.setInt(1, uid);
-            ResultSet rs = pst.executeQuery();    
-            if (rs.next()) {
-               email = rs.getString("usergmail");               
-            }
-        } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
-
-        }
-        
-     return email;
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -146,12 +129,12 @@ public class privspacelogin1 extends javax.swing.JFrame {
 
     private void lblpsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblpsMouseClicked
         // TODO add your handling code here:
-        otpgeneration genotp = new otpgeneration();
-        emailservice es=new emailservice();
-        String mail=getemail();
-        es.sendOTP(mail, genotp.generateotp(6));
+        
+        
         new resetps1().setVisible(true);
-
+        lblps.setEnabled(false);
+        delaytask.delay(1000, ()->lblps.setEnabled(true));
+        
 
     }//GEN-LAST:event_lblpsMouseClicked
 

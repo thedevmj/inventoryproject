@@ -8,7 +8,12 @@ package newpackage;
 import dao.connectionprovider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import newpackage.privspacelogin1;
+import services.delaytask;
+import services.emailservice;
+import services.otpgeneration;
 
 /**
  *
@@ -16,13 +21,43 @@ import javax.swing.JOptionPane;
  */
 public class resetps1 extends javax.swing.JFrame {
 
+    private String OTP = "";
+
     /**
      * Creates new form resetps
      */
     public resetps1() {
         initComponents();
         setLocationRelativeTo(null);
-        JOptionPane.showMessageDialog(this, "OTP sent! Please check your email.");
+        JOptionPane.showMessageDialog(null, "OTP sent! Please check your email !");
+        otpgeneration genotp = new otpgeneration();
+        emailservice es = new emailservice();
+        String mail = getemail();
+        OTP = genotp.generateotp(6);
+        es.sendOTP(mail, OTP);
+        
+        
+    }
+
+    private String getemail() {
+       
+        String email = "";
+        
+        try {
+            int uid = AppSession.userid;
+            Connection con = connectionprovider.getCon();
+            PreparedStatement pst = con.prepareStatement("select usergmail from usertbl where userid=?");
+            pst.setInt(1, uid);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                email = rs.getString("usergmail");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+
+        }
+
+        return email;
     }
 
     /**
@@ -35,21 +70,60 @@ public class resetps1 extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblnew = new javax.swing.JLabel();
         ps = new javax.swing.JTextField();
-        btnsaveps = new javax.swing.JButton();
+        btnreset = new javax.swing.JButton();
+        lblotp = new javax.swing.JLabel();
+        otpfield = new javax.swing.JTextField();
+        btnverify = new javax.swing.JButton();
+        lblms = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Reset   password");
 
-        jLabel2.setText("New password");
+        lblnew.setText("New password");
 
-        btnsaveps.setText("Reset");
-        btnsaveps.addActionListener(new java.awt.event.ActionListener() {
+        btnreset.setText("Reset");
+        btnreset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnsavepsActionPerformed(evt);
+                btnresetActionPerformed(evt);
+            }
+        });
+
+        lblotp.setText("Enter OTP : ");
+
+        otpfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                otpfieldActionPerformed(evt);
+            }
+        });
+
+        btnverify.setText("Verify");
+        btnverify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnverifyActionPerformed(evt);
+            }
+        });
+
+        lblms.setForeground(new java.awt.Color(255, 0, 0));
+
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -57,59 +131,142 @@ public class resetps1 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 193, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnsaveps)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(324, 324, 324)
-                            .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(157, 157, 157)
-                            .addComponent(jLabel2)
-                            .addGap(26, 26, 26)
-                            .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(337, Short.MAX_VALUE))
+                    .addComponent(btnreset)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblotp)
+                            .addComponent(lblnew))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblms))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(otpfield))))
+                .addGap(18, 18, 18)
+                .addComponent(btnverify)
+                .addGap(226, 226, 226))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(324, 324, 324)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(457, 457, 457)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(68, 68, 68)
+                .addGap(185, 185, 185)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addComponent(btnsaveps)
-                .addContainerGap(493, Short.MAX_VALUE))
+                    .addComponent(lblotp)
+                    .addComponent(otpfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnverify))
+                .addGap(5, 5, 5)
+                .addComponent(lblms)
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblnew))
+                .addGap(42, 42, 42)
+                .addComponent(btnreset)
+                .addGap(45, 45, 45)
+                .addComponent(jButton1)
+                .addContainerGap(238, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnsavepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsavepsActionPerformed
+    private void btnresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnresetActionPerformed
         // TODO add your handling code here:
-         try {
+        try {
 
-            int newpass =Integer.parseInt(ps.getText().trim());
+            int newpass = Integer.parseInt(ps.getText().trim());
             int fetchid = AppSession.userid;
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("update usertbl set privpass=? where userid=?");
-            pst.setInt(1,newpass);
+            pst.setInt(1, newpass);
             pst.setInt(2, fetchid);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Password created !");
-
+            JOptionPane.showMessageDialog(null, "Password Reset successfully !");
+            setVisible(false);
         } catch (NumberFormatException np) {
             JOptionPane.showMessageDialog(null, "Enter Password in Numbers  !");
-
+            np.printStackTrace();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "An error occured !" + e);
-
+            e.printStackTrace();
         }
 
-    }//GEN-LAST:event_btnsavepsActionPerformed
+    }//GEN-LAST:event_btnresetActionPerformed
+
+    private void btnverifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnverifyActionPerformed
+      
+        // TODO add your handling code here:
+        try {
+
+            String user_otp = otpfield.getText().trim();
+
+            if (user_otp.equals("") || !user_otp.equals(OTP)) {
+                lblms.setText("Incorrect OTP !");
+
+            } else {
+
+                otpfield.setEnabled(false);
+                btnverify.setEnabled(false);
+                lblotp.setEnabled(false);
+                lblnew.setEnabled(true);
+                ps.setEnabled(true);
+                btnreset.setEnabled(true);
+                lblms.setText("Verify successfull !");
+
+            }
+        } catch (NumberFormatException np) {
+            JOptionPane.showMessageDialog(null, "Please Enter OTP in numbers !");
+            
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(null, "An Error Occurred !");
+        }
+    }//GEN-LAST:event_btnverifyActionPerformed
+
+    private void otpfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otpfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_otpfieldActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+        lblms.setText("");
+
+    }//GEN-LAST:event_formMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int a=JOptionPane.showConfirmDialog(null,"Do you want to exit in between password reset","select" ,JOptionPane.YES_NO_OPTION);
+        if(a==0){
+        setVisible(false);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        otpfield.setEnabled(true);
+        btnverify.setEnabled(true);
+        lblotp.setEnabled(true);
+        lblnew.setEnabled(false);
+        ps.setEnabled(false);
+        btnreset.setEnabled(false);
+        
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -148,9 +305,14 @@ public class resetps1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnsaveps;
+    private javax.swing.JButton btnreset;
+    private javax.swing.JButton btnverify;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblms;
+    private javax.swing.JLabel lblnew;
+    private javax.swing.JLabel lblotp;
+    private javax.swing.JTextField otpfield;
     private javax.swing.JTextField ps;
     // End of variables declaration//GEN-END:variables
 }

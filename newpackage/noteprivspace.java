@@ -235,15 +235,9 @@ public class noteprivspace extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No row selected !");
             } else {
                 nid = Integer.parseInt(Nid.toString());
-
-                System.out.println("Current id " + nid);
-
             }
 
         } catch (NumberFormatException np) {
-
-
-            System.out.println(np);
 
             JOptionPane.showMessageDialog(null, "Unknown format Error ocurred !");
         } catch (ArrayIndexOutOfBoundsException ap) {

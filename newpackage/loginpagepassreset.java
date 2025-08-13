@@ -9,8 +9,10 @@ import dao.connectionprovider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import services.emailservice;
+import static services.emailservice.exceptionthrown;
 import services.otpgeneration;
 
 /**
@@ -22,7 +24,7 @@ public class loginpagepassreset extends javax.swing.JFrame {
     private String OTP = "";
     private String usernewps = "";
     private String Email = "";
-    private int uid=0;
+    private int uid = 0;
 
     /**
      * Creates new form loginpagepassreset
@@ -42,16 +44,16 @@ public class loginpagepassreset extends javax.swing.JFrame {
 
     }
 
-    private int throwuserid(){
-        int id=0;
-    try {
-        
+    private int throwuserid() {
+        int id = 0;
+        try {
+
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("select userid from usertbl where usergmail=?");
             pst.setString(1, Email);
-            ResultSet rs=pst.executeQuery();
-            if(rs.next()){
-            id=rs.getInt("userid");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("userid");
             }
         } catch (NumberFormatException np) {
             JOptionPane.showMessageDialog(null, "Please Enter Password in correct Format !");
@@ -60,9 +62,10 @@ public class loginpagepassreset extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "An Error Occurred ! Please Try Again Later ");
 
         }
-       return id;
-        
+        return id;
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,6 +87,7 @@ public class loginpagepassreset extends javax.swing.JFrame {
         txtotp = new javax.swing.JTextField();
         btnverify = new javax.swing.JButton();
         lblms = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -126,6 +130,13 @@ public class loginpagepassreset extends javax.swing.JFrame {
 
         lblms.setForeground(new java.awt.Color(255, 51, 51));
 
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,7 +175,10 @@ public class loginpagepassreset extends javax.swing.JFrame {
                         .addComponent(txtnewps, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(520, 520, 520)
-                        .addComponent(btnreset)))
+                        .addComponent(btnreset))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(389, 389, 389)
+                        .addComponent(jButton1)))
                 .addContainerGap(251, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -196,7 +210,9 @@ public class loginpagepassreset extends javax.swing.JFrame {
                     .addComponent(txtnewps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addComponent(btnreset)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(69, 69, 69))
         );
 
         pack();
@@ -207,21 +223,25 @@ public class loginpagepassreset extends javax.swing.JFrame {
         Email = txtmail.getText().trim();
 
         if (Email.equals("") || !Email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            lblwrongps.setText("Invalid Email ! Please Enter a Valid Email Address ");
+            lblwrongps.setText(" Invalid Email ! Please Enter a Valid Email Address ");
 
         } else {
 
             try {
 
                 emailservice es = new emailservice();
+
                 es.sendOTP(Email, OTP);
-                txtmail.setEnabled(false);
-                lblmail.setEnabled(false);
-                btnsend.setEnabled(false);
-                btnverify.setEnabled(true);
-                lblotp.setEnabled(true);
-                txtotp.setEnabled(true);
-                uid=throwuserid();
+                if (!exceptionthrown) {
+                    txtmail.setEnabled(false);
+                    lblmail.setEnabled(false);
+                    btnsend.setEnabled(false);
+                    btnverify.setEnabled(true);
+                    lblotp.setEnabled(true);
+                    txtotp.setEnabled(true);
+                    uid = throwuserid();
+                }
+
             } catch (NumberFormatException np) {
                 JOptionPane.showMessageDialog(null, "Please Enter Password in correct Format !");
 
@@ -238,9 +258,11 @@ public class loginpagepassreset extends javax.swing.JFrame {
         try {
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("update usertbl set userps=? where userid=?");
-            pst.setString(1,usernewps); 
+            pst.setString(1, usernewps);
             pst.setInt(2, uid);
-            pst.executeQuery();
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Password Recovered Successfully ! ");
+            setVisible(false);
         } catch (NumberFormatException np) {
             JOptionPane.showMessageDialog(null, "Please Enter Password in correct Format !");
 
@@ -272,10 +294,19 @@ public class loginpagepassreset extends javax.swing.JFrame {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         // TODO add your handling code here:
-         lblms.setText("");
-        lblnew.setText("");
+        lblms.setText("");
+        lblwrongps.setText("");
+
     }//GEN-LAST:event_formMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int a = JOptionPane.showConfirmDialog(null, "Do you want to Exit Password reset ?", "Select", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
+            setVisible(false);   
+             
+    }//GEN-LAST:event_jButton1ActionPerformed
+    }
     /**
      * @param args the command line arguments
      */
@@ -315,6 +346,7 @@ public class loginpagepassreset extends javax.swing.JFrame {
     private javax.swing.JButton btnreset;
     private javax.swing.JButton btnsend;
     private javax.swing.JButton btnverify;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblmail;
     private javax.swing.JLabel lblms;
