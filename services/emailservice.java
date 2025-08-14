@@ -22,6 +22,7 @@ import javax.mail.internet.*;
  */
 class tinfo extends otpgeneration {
 
+  protected String ps = "dzuf zhlg rwgu mjmf";
     public String throwuseremail() {
         String usergmail = null;
 
@@ -51,41 +52,48 @@ class tinfo extends otpgeneration {
 
 public class emailservice extends tinfo {
 
- 
+ public static boolean exceptionthrown=false;
 
-    public void sendOTP(String email, String otp) {
-        
-      
-        String ps = "dzuf zhlg rwgu mjmf";
-        if (email == null || ps == null) {
-            JOptionPane.showMessageDialog(null, "Missing Credentials Email or Password !");
-            return;
-        }
-        Properties props = new Properties();
+    
+ private Session createSMTPSession(final String email,final String ps){
+ Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props, new Authenticator() {
+        return Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(email, ps);
             }
         });
+ }
+ public void sendOTP(String email, String otp) {
+        
+      
+        
+        if (email == null) {
+            JOptionPane.showMessageDialog(null, "Missing Credentials Email or Password !");
+            return;
+        }
+        
         try {
+            Session session=createSMTPSession(email,ps);
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(email));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 
             message.setSubject("Your One Time OTP (otp)");
             message.setText("Your otp is \t" + otp + "\t use this to recover your  Password\n Don't share it with anyone.");
-            
-
             Transport.send(message);
-           
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            
+        }  catch(MessagingException ms){
+            JOptionPane.showMessageDialog(null, "Unknown host ! Please Try Different Email Address ");
+            exceptionthrown = true;
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error Connetion Email Address !");
+            
 
         }
           
