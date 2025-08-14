@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
+import services.delaytask;
 import services.emailservice;
 import static services.emailservice.exceptionthrown;
 import services.otpgeneration;
@@ -41,6 +42,8 @@ public class loginpagepassreset extends javax.swing.JFrame {
 
         otpgeneration og = new otpgeneration();
         OTP = og.generateotp(6);
+        delaytask.delay(5*60*1000,()->OTP="");
+
 
     }
 
@@ -254,7 +257,7 @@ public class loginpagepassreset extends javax.swing.JFrame {
 
     private void btnresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnresetActionPerformed
         // TODO add your handling code here:
-        usernewps = txtnewps.getText().trim().toString();
+        usernewps = txtnewps.getText().trim();
         try {
             Connection con = connectionprovider.getCon();
             PreparedStatement pst = con.prepareStatement("update usertbl set userps=? where userid=?");
@@ -277,8 +280,8 @@ public class loginpagepassreset extends javax.swing.JFrame {
         // TODO add your handling code here:
         String user_enter_otp = txtotp.getText().trim();
 
-        if (!user_enter_otp.equals(OTP) || user_enter_otp.equals("")) {
-            lblms.setText("Invalid Otp !");
+        if (!user_enter_otp.equals(OTP) || user_enter_otp.equals("") || OTP.equals("")) {
+            lblms.setText("Invalid OTP !");
         } else {
 
             txtnewps.setEnabled(true);
