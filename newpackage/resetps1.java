@@ -35,7 +35,7 @@ public class resetps1 extends javax.swing.JFrame {
         String mail = getemail();
         OTP = genotp.generateotp(6);
         es.sendOTP(mail, OTP);
-        
+        delaytask.delay(5*60*1000,()->OTP="");
         
     }
 
@@ -216,7 +216,7 @@ public class resetps1 extends javax.swing.JFrame {
 
             String user_otp = otpfield.getText().trim();
 
-            if (user_otp.equals("") || !user_otp.equals(OTP)) {
+            if (user_otp.equals("") || !user_otp.equals(OTP) || OTP.equals("")) {
                 lblms.setText("Incorrect OTP !");
 
             } else {
